@@ -6,5 +6,3 @@ target_sources("${PROJECT_NAME}"
         PluginEditor.cpp
         PluginProcessor.h
         PluginProcessor.cpp)
-
-# Add subdirectories with source files, if present
