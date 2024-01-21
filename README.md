@@ -9,7 +9,6 @@ mimics a pink noise frequency response and not a flat white one.
 This plugin simply wraps a brickwall between two filters that turn the pink noise
 shaped signal into a white noise shaped one and back, and therefore allow for the
 artefacts to be more likely to be introduced by mid and higher frequencies.
-Needless to mention that the plugin's destructive properties can also be used for other creative purposes.
 
 ## Build and install
 Documentation work in progress.
