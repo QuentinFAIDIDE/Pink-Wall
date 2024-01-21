@@ -13,6 +13,12 @@ artefacts to be more likely to be introduced by mid and higher frequencies.
 ## Build and install
 Documentation work in progress.
 
+## Development
+This might be usefull for the language servers of you IDE to work:
+```bash
+cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+```
+
 ## References
 - Filtering coefficients for pinking filter are from [here](https://ccrma.stanford.edu/%7Ejos/sasp/Example_Synthesis_1_F_Noise.html).
 - The root `CMakelists.txt` was inspired by [this project's cmake]() by Anthony Alfimov. 
