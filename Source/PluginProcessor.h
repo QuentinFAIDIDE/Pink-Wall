@@ -1,6 +1,10 @@
 #pragma once
 
+#include "AudioBackend/AudioBackend.h"
 #include <juce_audio_processors/juce_audio_processors.h>
+#include <mutex>
+
+#define MAX_DB_BOOST 30.0f
 
 /**
  * @brief Class that describes the audio plugin processing and GUI creation.
@@ -149,9 +153,21 @@ class AudioPluginAudioProcessor : public juce::AudioProcessor
      */
     void setStateInformation(const void *data, int sizeInBytes) override;
 
+    float getGainBoostDB() const;
+    void setGainBoostDB(float);
+    float getGainReductionDB() const;
+
   private:
-    float internalGainBoost; /**< gain for boosting and unboosting around brickwall
-                                limiter and in between pink/white filters */
+    std::atomic<float> internalGainBoostDB;    /**< gain for boosting and unboosting around brickwall
+                                   limiter and in between pink/white filters */
+    std::atomic<float> lastMaxGainReductionDB; /**< Maximum limiter gain reduction of last block of audio */
+
+    std::mutex gainChangeMutex; /**< Used for locking gain change related thread operations */
+
+    juce::AudioParameterFloat *internalGainBoostParamDB; /**< Juce plugin parameter for the plugin gain boost */
+
+    AudioBackend channelsAudioProcessing[2]; /**< For each channel, holds an instance of the audio processing class that
+                                                performs everything */
 
     // Juce utility to delete copy constructors
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(AudioPluginAudioProcessor)
