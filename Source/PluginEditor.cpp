@@ -1,7 +1,6 @@
 #include "PluginEditor.h"
 #include "BackgroundImage.h"
 #include "PluginProcessor.h"
-#include <limits>
 
 #define CURSOR_WIDTH 11
 #define CURSOR_HEIGHT 10
