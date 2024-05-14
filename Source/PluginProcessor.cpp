@@ -2,7 +2,6 @@
 #include "AudioBackend/Brickwall.h"
 #include "PluginEditor.h"
 #include <limits>
-#include <memory>
 #include <mutex>
 #include <stdexcept>
 
@@ -157,16 +156,19 @@ juce::AudioProcessorEditor *AudioPluginAudioProcessor::createEditor()
 
 void AudioPluginAudioProcessor::getStateInformation(juce::MemoryBlock &destData)
 {
-    destData.append(internalGainBoostParamDB, sizeof(float));
+    destData.reset();
+    float savedDbGain = getGainBoostDB();
+    destData.append(&savedDbGain, sizeof(float));
 }
 
 void AudioPluginAudioProcessor::setStateInformation(const void *data, int sizeInBytes)
 {
     if (sizeInBytes != sizeof(float))
     {
-        throw std::runtime_error("Wrong state this provided by DAW");
+        throw std::runtime_error("Wrong state provided by DAW");
     }
-    *internalGainBoostParamDB = *((float *)data);
+    float newDbGain = *((float *)data);
+    setGainBoostDB(newDbGain);
 }
 
 juce::AudioProcessor *JUCE_CALLTYPE createPluginFilter()
